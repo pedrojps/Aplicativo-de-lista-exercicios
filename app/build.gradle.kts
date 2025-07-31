@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.services)
+    id("kotlin-kapt")
 }
 
 android {
@@ -61,4 +62,12 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
     implementation("com.google.firebase:firebase-analytics")
 
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1") // ou annotationProcessor se usar Groovy
+
+    // Hilt (se estiver usando)
+    implementation("androidx.hilt:hilt-navigation-fragment:1.1.0")
+    kapt("androidx.hilt:hilt-compiler:1.1.0")
 }
