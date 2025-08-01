@@ -4,5 +4,5 @@
     <string name="senha">Senha</string>
     <string name="cadastrar">Cadastrar</string>
     <string name="login">Login</string>
-
+    <string name="erro_cadastro">A senha deve conter no mínimo 6 caracteres</string>
 </resources>

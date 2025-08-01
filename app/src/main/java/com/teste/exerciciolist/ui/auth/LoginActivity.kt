@@ -2,11 +2,13 @@ package com.teste.exerciciolist.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.teste.exerciciolist.MainActivity
 import com.teste.exerciciolist.databinding.ActivityLoginBinding
+import com.teste.exerciciolist.utils.ScreenManager
 import com.teste.exerciciolist.viewmodel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,10 +24,12 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupObservers()
+    }
+
+    private fun setupObservers(){
         binding.btnLogin.setOnClickListener {
-            val email = binding.email.text.toString()
-            val senha = binding.senha.text.toString()
-            viewModel.login(email, senha)
+            onClickLogin()
         }
 
         binding.btnCadastro.setOnClickListener {
@@ -34,13 +38,24 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.authSuccess.observe(this) {
             if (it) {
-                startActivity(Intent(this, MainActivity::class.java))
+                ScreenManager.toGoMain(this)
                 finish()
             }
         }
 
         viewModel.authError.observe(this) {
-            it?.let { msg -> Toast.makeText(this, msg, Toast.LENGTH_LONG).show() }
+            setErrorMessage(it)
         }
+    }
+
+    private fun setErrorMessage(msg: String?) {
+        binding.erro.visibility = if (msg.isNullOrEmpty())View.GONE else View.VISIBLE
+        binding.erro.text = msg
+    }
+
+    private fun onClickLogin(){
+        val email = binding.email.text.toString()
+        val senha = binding.senha.text.toString()
+        viewModel.login(email, senha)
     }
 }
