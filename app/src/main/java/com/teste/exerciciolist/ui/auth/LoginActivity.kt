@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.teste.exerciciolist.MainActivity
+import com.teste.exerciciolist.data.firebase.AuthManager
 import com.teste.exerciciolist.databinding.ActivityLoginBinding
 import com.teste.exerciciolist.utils.ScreenManager
 import com.teste.exerciciolist.viewmodel.AuthViewModel
@@ -20,6 +21,12 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (AuthManager.isLoggedIn()) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish() 
+            return
+        }
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)

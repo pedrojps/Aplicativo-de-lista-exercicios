@@ -73,6 +73,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1") // ou annotationProcessor se usar Groovy
 
+
     // Hilt
     implementation("androidx.hilt:hilt-navigation-fragment:1.1.0")
     kapt("androidx.hilt:hilt-compiler:1.1.0")

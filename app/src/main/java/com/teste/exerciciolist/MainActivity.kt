@@ -1,56 +1,44 @@
 package com.teste.exerciciolist
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.teste.exerciciolist.data.firebase.AuthManager
-import com.teste.exerciciolist.ui.theme.ExercicioListTheme
-import com.teste.exerciciolist.utils.ScreenManager
+import com.teste.exerciciolist.data.local.entity.TreinoEntity
+import com.teste.exerciciolist.ui.treino.TreinoFormFragment
+import com.teste.exerciciolist.ui.treino.TreinoListFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            ExercicioListTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+        setContentView(R.layout.activity_main)
+
+        // Abre o fragmento de lista na inicialização
+        if (savedInstanceState == null) {
+            abrirListaDeTreinos()
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (!AuthManager.isLoggedIn())
-            ScreenManager.toGoLogin(this)
+    fun abrirListaDeTreinos() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, TreinoListFragment())
+            .commit()
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    fun abrirFormularioTreino(treino: TreinoEntity? = null) {
+        val fragment = TreinoFormFragment()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ExercicioListTheme {
-        Greeting("Android")
+        treino?.let {
+            val bundle = Bundle().apply {
+                putSerializable("treino", it)
+            }
+            fragment.arguments = bundle
+        }
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
