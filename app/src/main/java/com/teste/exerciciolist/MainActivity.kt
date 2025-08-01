@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -15,7 +16,7 @@ import com.teste.exerciciolist.data.firebase.AuthManager
 import com.teste.exerciciolist.ui.theme.ExercicioListTheme
 import com.teste.exerciciolist.utils.ScreenManager
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,7 +30,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        //AuthManager.logout()
+    }
+
+    override fun onResume() {
+        super.onResume()
         if (!AuthManager.isLoggedIn())
             ScreenManager.toGoLogin(this)
     }
