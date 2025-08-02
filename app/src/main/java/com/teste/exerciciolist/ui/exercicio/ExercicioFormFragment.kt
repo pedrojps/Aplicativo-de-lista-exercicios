@@ -17,6 +17,7 @@ import com.teste.exerciciolist.data.local.entity.ExercicioEntity
 import com.teste.exerciciolist.data.local.entity.TreinoEntity
 import com.teste.exerciciolist.data.repository.ExercicioRepository
 import com.teste.exerciciolist.databinding.FragmentExercicioFromBinding
+import com.teste.exerciciolist.utils.UtilImage
 import com.teste.exerciciolist.viewmodel.ExercicioViewModel
 
 class ExercicioFormFragment : Fragment() {
@@ -63,7 +64,7 @@ class ExercicioFormFragment : Fragment() {
         exercicio?.let {
             binding.nome.setText(it.nome)
             binding.descrition.setText(it.observacoes)
-            //binding.imageView3.setImageURI(Uri.parse(it.imagemUrl))
+            UtilImage.loadImage(context,binding.imageView3, it.imagemUrl)
         }
     }
 

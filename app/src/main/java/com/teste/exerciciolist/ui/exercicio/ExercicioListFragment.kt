@@ -80,7 +80,11 @@ class ExercicioListFragment : Fragment() {
             }
         }
 
-        adapter.setListener {  }
+        adapter.setListener {
+            treino?.let { treino ->
+                (activity as MainActivity).abrirExercicios(treino, it)
+            }
+        }
         adapter.setListenerDeleter {
             viewModel.deletarExercicio(it, AuthManager.getUserId() ?: return@setListenerDeleter, treino?.remoteId?:return@setListenerDeleter)
         }

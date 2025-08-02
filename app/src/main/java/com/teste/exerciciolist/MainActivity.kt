@@ -9,6 +9,9 @@ import com.teste.exerciciolist.ui.exercicio.ExercicioFormFragment.Companion.PARA
 import com.teste.exerciciolist.ui.exercicio.ExercicioFormFragment.Companion.PARAM_LIST_F
 import com.teste.exerciciolist.ui.exercicio.ExercicioListFragment
 import com.teste.exerciciolist.ui.exercicio.ExercicioListFragment.Companion.PARAM_LIST
+import com.teste.exerciciolist.ui.exercicio.ExercicioShowFragment
+import com.teste.exerciciolist.ui.exercicio.ExercicioShowFragment.Companion.PARAM_EDIT_S
+import com.teste.exerciciolist.ui.exercicio.ExercicioShowFragment.Companion.PARAM_LIST_S
 import com.teste.exerciciolist.ui.treino.TreinoFormFragment
 import com.teste.exerciciolist.ui.treino.TreinoListFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,10 +45,8 @@ class MainActivity : AppCompatActivity() {
             fragment.arguments = bundle
         }
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
+
+        showFragmento(fragment)
     }
 
     fun abrirListaDeExercicios(treino: TreinoEntity) {
@@ -55,10 +56,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
+
+        showFragmento(fragment)
+    }
+
+    fun abrirExercicios(treino: TreinoEntity, exercicio: ExercicioEntity? = null) {
+        val fragment = ExercicioShowFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(PARAM_LIST_S, treino)
+                exercicio?.let { putSerializable(PARAM_EDIT_S, it) }
+            }
+        }
+
+
+        showFragmento(fragment)
     }
 
     fun abrirFormularioExercicio(treino: TreinoEntity, exercicio: ExercicioEntity? = null) {
@@ -68,6 +79,11 @@ class MainActivity : AppCompatActivity() {
                 exercicio?.let { putSerializable(PARAM_EDIT_F, it) }
             }
         }
+
+        showFragmento(fragment)
+    }
+
+    fun showFragmento(fragment: androidx.fragment.app.Fragment) {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)

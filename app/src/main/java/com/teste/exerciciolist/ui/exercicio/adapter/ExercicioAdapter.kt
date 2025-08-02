@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView
 import com.teste.exerciciolist.data.local.entity.ExercicioEntity
 import com.teste.exerciciolist.data.local.entity.TreinoEntity;
+import com.teste.exerciciolist.databinding.ItemExercicioBinding
 import com.teste.exerciciolist.databinding.ItemTreinoBinding;
 import kotlin.Unit;
 
@@ -18,7 +19,7 @@ class ExercicioAdapter: RecyclerView.Adapter<ExercicioViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExercicioViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 
-        return ExercicioViewHolder(ItemTreinoBinding.inflate(inflater, parent, false))
+        return ExercicioViewHolder(ItemExercicioBinding.inflate(inflater, parent, false))
     }
 
     override fun getItemCount(): Int {
