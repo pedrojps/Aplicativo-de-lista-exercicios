@@ -57,6 +57,9 @@ class ExercicioFormFragment : Fragment() {
             viewModel.setTreinoId(it)
         }
 
+    }
+
+    private fun setData(){
         exercicio?.let {
             binding.nome.setText(it.nome)
             binding.descrition.setText(it.observacoes)
@@ -74,6 +77,7 @@ class ExercicioFormFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setListener()
+        setData()
     }
 
     private fun setListener(){
@@ -90,7 +94,7 @@ class ExercicioFormFragment : Fragment() {
     }
 
     private fun salvarImage(remoteID: ExercicioEntity?) {
-        viewModel.uploadExercicioImage(selectedImageUri, remoteID)
+        viewModel.uploadExercicioImage(selectedImageUri, remoteID, exercicio == null)
         parentFragmentManager.popBackStack()
     }
 
@@ -110,7 +114,12 @@ class ExercicioFormFragment : Fragment() {
         }
 
         AuthManager.getUserId()?.let {
-            viewModel.criarExercicio(nome, descricao, it)
+            if (exercicio == null)
+                viewModel.criarExercicio(nome, descricao, it)
+            else
+                exercicio?.let { ex ->
+                    viewModel.atualizarExercicio(ex.copy(nome = nome, observacoes = descricao), it, treino?.remoteId.toString())
+                }
         }
     }
 

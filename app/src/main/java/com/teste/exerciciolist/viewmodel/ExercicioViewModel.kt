@@ -33,7 +33,7 @@ class ExercicioViewModel constructor(
     }
 
     fun criarExercicio(nome: String, observacoes: String, userId: String) {
-        var exercicio = ExercicioEntity(
+        val exercicio = ExercicioEntity(
             nome = nome,
             observacoes = observacoes,
             treinoId = _treinoId.value?.id ?: 0,
@@ -47,7 +47,7 @@ class ExercicioViewModel constructor(
 
     fun atualizarExercicio(exercicio: ExercicioEntity, userId: String, treinoId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.atualizarExercicio(exercicio, userId, treinoId)
+            exercicioId.postValue(  repository.atualizarExercicio(exercicio, userId, treinoId))
         }
     }
 
@@ -65,7 +65,7 @@ class ExercicioViewModel constructor(
         }
     }
 
-    fun uploadExercicioImage(uri: Uri?, exercicio: ExercicioEntity?) {
+    fun uploadExercicioImage(uri: Uri?, exercicio: ExercicioEntity?, isNewExercicio: Boolean = false) {
         if (uri != null) {
             val fileName = "exercicio_${exercicio?.remoteId}_${AuthManager.getUserId()}"
 
@@ -73,6 +73,7 @@ class ExercicioViewModel constructor(
                 uri = uri,
                 fileName = fileName,
                 onSuccess = { imageUrl ->
+                    if (isNewExercicio) return@uploadExercicioImage
                     val exercicioParaSalvar = exercicio?.copy(imagemUrl = imageUrl)
                     atualizarExercicio(
                         exercicioParaSalvar?: return@uploadExercicioImage,

@@ -37,7 +37,7 @@ class ExercicioRepository @Inject constructor(
         exercicio: ExercicioEntity,
         userId: String,
         treinoId: String
-    ): Boolean {
+    ): ExercicioEntity? {
         var success = false
 
         exercicio.remoteId?.let {
@@ -45,7 +45,7 @@ class ExercicioRepository @Inject constructor(
         }
 
         if (success) exercicioDao.update(exercicio)
-        return success
+        return if (success) exercicio else null
     }
 
     suspend fun sincronizarExercicios(userId: String, rTreinoId: String, lTreinoId: Int) {
