@@ -121,7 +121,7 @@ object FirestoreManager {
         }
     }
 
-    suspend fun listarExercicios(userId: String, treinoId: String): List<Pair<String, Exercicio>> {
+    suspend fun listarExercicios(userId: String, treinoId: String): List<Pair<String, Exercicio>>? {
         return try {
             val snapshot = firestore.collection(USUARIOS_COLLECTION)
                 .document(userId)
@@ -133,13 +133,11 @@ object FirestoreManager {
 
             snapshot.documents.mapNotNull { doc ->
                 val exercicio = doc.toObject(Exercicio::class.java)
-                exercicio?.let {
-                    doc.id to it
-                }
+                exercicio?.let { doc.id to it }
             }
         } catch (e: Exception) {
             Log.e("FirestoreManager", "Erro ao listar exercícios: ${e.message}", e)
-            emptyList()
+            null
         }
     }
 

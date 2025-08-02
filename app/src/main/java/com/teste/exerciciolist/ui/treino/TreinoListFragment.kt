@@ -27,8 +27,9 @@ class TreinoListFragment : Fragment() {
     private var adapter: TreinoAdapter = TreinoAdapter()
 
     private val viewModel: TreinoViewModel by lazy {
-        val dao = AppDatabase.getInstance(requireContext()).treinoDao()
-        val repository = TreinoRepository(dao)
+        val treinoDao = AppDatabase.getInstance(requireContext()).treinoDao()
+        val exercicioDao = AppDatabase.getInstance(requireContext()).exercicioDao()
+        val repository = TreinoRepository(treinoDao, exercicioDao)
         val factory = TreinoViewModel.TreinoViewModelFactory(repository)
         ViewModelProvider(this, factory)[TreinoViewModel::class.java]
     }

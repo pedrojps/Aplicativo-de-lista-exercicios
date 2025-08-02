@@ -52,10 +52,12 @@ class TreinoRepository @Inject constructor(
 
         treinoDao.deleteAll()
         locais.forEach {
-            treinoDao.insert(it)
+            val idTreino = treinoDao.insert(it)
             val exerciciosR = FirestoreManager.listarExercicios(userId, it.remoteId.toString())
+            exerciciosR?:return@forEach
+
             val exerciciosL = exerciciosR.map { (id, e) ->
-                e.toEntity(id, it.id)
+                e.toEntity(id, idTreino.toInt())
             }
 
             exercicioDao.deleteByTreinoId(it.id)

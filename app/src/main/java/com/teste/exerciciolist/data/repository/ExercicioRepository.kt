@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import com.teste.exerciciolist.data.firebase.FirestoreManager
 import com.teste.exerciciolist.data.local.dao.ExercicioDao
 import com.teste.exerciciolist.data.local.entity.ExercicioEntity
-import com.teste.exerciciolist.data.local.entity.TreinoEntity
 import com.teste.exerciciolist.data.model.ModelByEntity.toEntity
 import com.teste.exerciciolist.data.model.ModelByEntity.toModel
 import javax.inject.Inject
@@ -54,13 +53,14 @@ class ExercicioRepository @Inject constructor(
 
     suspend fun sincronizarExercicios(userId: String, rTreinoId: String, lTreinoId: Int) {
         val remotos = FirestoreManager.listarExercicios(userId, rTreinoId)
+        remotos?:return
 
         val locais = remotos.map { (id, e) ->
             e.toEntity(id, lTreinoId)
         }
 
         exercicioDao.deleteByTreinoId(lTreinoId)
-        locais.forEach { exercicioDao.insert(it) }
+        exercicioDao.insert(locais)
     }
 
     suspend fun deletarExercicio(
