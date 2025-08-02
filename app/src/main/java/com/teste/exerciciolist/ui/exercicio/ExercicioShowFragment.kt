@@ -62,11 +62,12 @@ class ExercicioShowFragment : Fragment() {
 
         treino?.let {
             viewModel.setTreinoId(it)
+            viewModel.setExercicioId(exercicio?: return)
         }
     }
 
     private fun setData(){
-        exercicio?.let {
+        viewModel.exercicio.observe(viewLifecycleOwner) {
             binding.nomeTreino.text = (it.nome)
             binding.discritionTreino.text = (it.observacoes)
             UtilImage.loadImage(context,binding.imageView2, it.imagemUrl)

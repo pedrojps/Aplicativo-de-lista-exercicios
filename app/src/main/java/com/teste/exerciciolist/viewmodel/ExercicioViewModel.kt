@@ -28,8 +28,16 @@ class ExercicioViewModel constructor(
         repository.getLiveByTreinoId(treinoId.id)
     }
 
+    val exercicio: LiveData<ExercicioEntity> = exercicioId.switchMap { exercicioId ->
+        repository.getLiveById(exercicioId.id)
+    }
+
     fun setTreinoId(treinoId: TreinoEntity) {
         _treinoId.value = treinoId
+    }
+
+    fun setExercicioId(treinoId: ExercicioEntity) {
+        exercicioId.value = treinoId
     }
 
     fun criarExercicio(nome: String, observacoes: String, userId: String) {

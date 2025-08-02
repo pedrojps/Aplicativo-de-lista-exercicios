@@ -18,6 +18,10 @@ class ExercicioRepository @Inject constructor(
         return exercicioDao.getByTreino(treinoId)
     }
 
+    fun getLiveById(id: Int): LiveData<ExercicioEntity> {
+        return exercicioDao.getById(id)
+    }
+
     suspend fun adicionarExercicio(
         exercicio: ExercicioEntity,
         userId: String,

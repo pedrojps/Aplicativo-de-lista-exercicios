@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.teste.exerciciolist.R
 import com.teste.exerciciolist.data.firebase.AuthManager
 import com.teste.exerciciolist.data.firebase.StorageManager
 import com.teste.exerciciolist.data.local.database.AppDatabase
@@ -65,7 +66,14 @@ class ExercicioFormFragment : Fragment() {
             binding.nome.setText(it.nome)
             binding.descrition.setText(it.observacoes)
             UtilImage.loadImage(context,binding.imageView3, it.imagemUrl)
+
+            binding.btnSalvar.text = getText(R.string.atualizar)
+            binding.textTitulo.text = getText(R.string.atualizar_exercicio)
+        } ?: run {
+            binding.btnSalvar.text = getText(R.string.criar)
+            binding.textTitulo.text = getText(R.string.criar_exercicio)
         }
+
     }
 
     override fun onCreateView(

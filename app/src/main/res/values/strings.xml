@@ -20,4 +20,5 @@
     <string name="nome_do_exercicio">Nome do Exercicio</string>
     <string name="observa_es">Observações</string>
     <string name="criar_exercicio">Criar Exercicio</string>
+    <string name="atualizar_exercicio">Atualizar Exercicio</string>
 </resources>

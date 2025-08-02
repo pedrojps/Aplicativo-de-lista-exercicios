@@ -2,15 +2,16 @@ package com.teste.exerciciolist.data.repository
 
 import androidx.lifecycle.LiveData
 import com.teste.exerciciolist.data.firebase.FirestoreManager
+import com.teste.exerciciolist.data.local.dao.ExercicioDao
 import com.teste.exerciciolist.data.local.dao.TreinoDao
 import com.teste.exerciciolist.data.local.entity.TreinoEntity
 import com.teste.exerciciolist.data.model.ModelByEntity.toEntity
 import com.teste.exerciciolist.data.model.ModelByEntity.toModel
-import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class TreinoRepository @Inject constructor(
-    private val treinoDao: TreinoDao
+    private val treinoDao: TreinoDao,
+    private val exercicioDao: ExercicioDao
 ) {
 
     fun getTreinos(): LiveData<List<TreinoEntity>> {
@@ -50,11 +51,20 @@ class TreinoRepository @Inject constructor(
         }
 
         treinoDao.deleteAll()
-        locais.forEach { treinoDao.insert(it) }
+        locais.forEach {
+            treinoDao.insert(it)
+            val exerciciosR = FirestoreManager.listarExercicios(userId, it.remoteId.toString())
+            val exerciciosL = exerciciosR.map { (id, e) ->
+                e.toEntity(id, it.id)
+            }
+
+            exercicioDao.deleteByTreinoId(it.id)
+            exercicioDao.insert(exerciciosL)
+        }
     }
 
     suspend fun deletarTreino(treino: TreinoEntity, userId: String): Boolean {
-        // 1. Deletar do Firestore se tiver remoteId
+        // 1. Deletar do Firestore
         var success = false
         treino.remoteId?.let {
             success = FirestoreManager.deletarTreino(userId, it)
