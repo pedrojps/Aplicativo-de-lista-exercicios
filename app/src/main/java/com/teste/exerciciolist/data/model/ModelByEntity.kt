@@ -16,8 +16,7 @@ object ModelByEntity {
     fun ExercicioEntity.toModel(): Exercicio = Exercicio(
         nome = this.nome,
         imagemUrl = this.imagemUrl,
-        observacoes = this.observacoes,
-        treinoId = this.treinoId
+        observacoes = this.observacoes
     )
 
     fun Exercicio.toEntity(remoteId: String, treinoId: Int): ExercicioEntity = ExercicioEntity(

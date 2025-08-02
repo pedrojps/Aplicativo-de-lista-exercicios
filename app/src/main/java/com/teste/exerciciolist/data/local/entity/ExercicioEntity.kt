@@ -22,7 +22,7 @@ data class ExercicioEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val nome: String,
-    val imagemUrl: String?,
+    var imagemUrl: String?,
     val observacoes: String,
     val treinoId: Int,
     var remoteId: String? = null

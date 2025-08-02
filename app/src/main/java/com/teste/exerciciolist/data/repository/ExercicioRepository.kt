@@ -22,15 +22,15 @@ class ExercicioRepository @Inject constructor(
         exercicio: ExercicioEntity,
         userId: String,
         treinoId: String
-    ): Boolean {
+    ): ExercicioEntity? {
         val remoteId = FirestoreManager.salvarExercicio(userId, treinoId, exercicio.toModel())
 
-        if (remoteId.isEmpty()) return false
+        if (remoteId.isEmpty()) return null
 
         // Salva localmente com o remoteId recebido
         val exercicioComId = exercicio.copy(remoteId = remoteId)
         exercicioDao.insert(exercicioComId)
-        return true
+        return exercicioComId
     }
 
     suspend fun atualizarExercicio(
