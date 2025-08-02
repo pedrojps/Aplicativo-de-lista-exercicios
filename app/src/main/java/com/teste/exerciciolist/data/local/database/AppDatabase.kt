@@ -11,7 +11,7 @@ import com.teste.exerciciolist.data.local.entity.TreinoEntity
 
 @Database(
     entities = [TreinoEntity::class, ExercicioEntity::class],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun treinoDao(): TreinoDao
@@ -26,7 +26,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "treino_db"
-                ).build().also { INSTANCE = it }
+                )
+                    .fallbackToDestructiveMigration()
+                    .build().also { INSTANCE = it }
             }
     }
 }

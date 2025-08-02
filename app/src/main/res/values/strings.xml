@@ -16,4 +16,8 @@
     <string name="descricao">Descrição</string>
     <string name="criar">Criar</string>
     <string name="atualizar">Atualizar</string>
+    <string name="adicionar_exercicio">Adicionar Exercicio</string>
+    <string name="nome_do_exercicio">Nome do Exercicio</string>
+    <string name="observa_es">Observações</string>
+    <string name="criar_exercicio">Criar Exercicio</string>
 </resources>

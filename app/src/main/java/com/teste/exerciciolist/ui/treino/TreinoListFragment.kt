@@ -65,7 +65,9 @@ class TreinoListFragment : Fragment() {
             adapter.submitList(lista)
         }
 
-        adapter.setListener {  }
+        adapter.setListener {
+            (activity as MainActivity).abrirListaDeExercicios(it)
+        }
         adapter.setListenerDeleter {
             viewModel.deletarTreino(it, AuthManager.getUserId() ?: return@setListenerDeleter)
         }

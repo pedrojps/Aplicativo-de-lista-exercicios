@@ -11,4 +11,7 @@ interface ExercicioDao: BaseDao<ExercicioEntity> {
     @Query("SELECT * FROM exercicios WHERE treinoId = :treinoId")
     fun getByTreino(treinoId: Int): LiveData<List<ExercicioEntity>>
 
+
+    @Query("DELETE FROM exercicios WHERE treinoId = :treinoId")
+    suspend fun deleteByTreinoId(treinoId: Int)
 }

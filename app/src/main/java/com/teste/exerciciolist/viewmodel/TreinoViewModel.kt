@@ -9,7 +9,7 @@ import com.teste.exerciciolist.data.repository.TreinoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TreinoViewModel  constructor(
+class TreinoViewModel (
     private val repository: TreinoRepository
 ) : ViewModel() {
 
