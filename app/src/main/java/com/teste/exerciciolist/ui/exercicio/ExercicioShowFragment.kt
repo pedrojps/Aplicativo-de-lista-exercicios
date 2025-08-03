@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.teste.exerciciolist.MainActivity
@@ -37,6 +38,9 @@ class ExercicioShowFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentExercicioShowBinding.inflate(inflater, container, false)
+
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         return binding.root
     }
 

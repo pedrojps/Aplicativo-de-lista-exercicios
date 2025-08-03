@@ -98,6 +98,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/background_button_secundary"
+                app:backgroundTint="@color/teal_200"
                 android:text="@string/editar"
                 android:textColor="@color/teal_700" />
 
@@ -108,6 +109,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/background_button_negative"
+                app:backgroundTint="@color/red_button"
                 android:text="@string/deletar"
                 android:textColor="@color/teal_200" />
         </LinearLayout>

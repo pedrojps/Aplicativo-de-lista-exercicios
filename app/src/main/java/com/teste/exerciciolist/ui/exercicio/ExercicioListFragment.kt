@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,19 +49,27 @@ class ExercicioListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentExercicioListBinding.inflate(inflater, container, false)
+
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setParametro()
         setAdapter()
         setOnClick()
-        setParametro()
     }
 
     private fun setParametro(){
         treino?.let {
             binding.nomeTreino.text = it.nome
             binding.discritionTreino.text = it.descricao
+
+            viewModel.setTreinoId(it)
+            AuthManager.getUserId()?.let { id ->
+                viewModel.sincronizar(id, it)
+            }
         }
     }
 
@@ -73,12 +82,6 @@ class ExercicioListFragment : Fragment() {
     }
 
     private fun setAdapter(){
-        treino?.let {
-            viewModel.setTreinoId(it)
-            AuthManager.getUserId()?.let { id ->
-                viewModel.sincronizar(id, it)
-            }
-        }
 
         adapter.setListener {
             treino?.let { treino ->

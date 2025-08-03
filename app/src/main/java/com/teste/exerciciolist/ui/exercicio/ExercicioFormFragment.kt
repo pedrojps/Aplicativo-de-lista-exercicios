@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.teste.exerciciolist.R
@@ -35,9 +36,49 @@ class ExercicioFormFragment : Fragment() {
         ViewModelProvider(this, factory)[ExercicioViewModel::class.java]
     }
 
+    private val imagePicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        selectedImageUri = uri
+        binding.imageView3.setImageURI(uri)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loadData()
+    }
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentExercicioFromBinding.inflate(inflater, container, false)
+
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setListener()
+        setData()
+    }
+
+    private fun setListener(){
+        binding.imageView3.setOnClickListener {
+            imagePicker.launch("image/*")
+        }
+        binding.btnSalvar.setOnClickListener {
+            salvarExercicio()
+        }
+
+        viewModel.exercicioId.observe(viewLifecycleOwner) {
+            salvarImage(it)
+        }
+    }
+
+    private fun salvarImage(remoteID: ExercicioEntity?) {
+        viewModel.uploadExercicioImage(selectedImageUri, remoteID, exercicio == null)
+        parentFragmentManager.popBackStack()
     }
 
     private fun loadData(){
@@ -75,43 +116,6 @@ class ExercicioFormFragment : Fragment() {
         }
 
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentExercicioFromBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setListener()
-        setData()
-    }
-
-    private fun setListener(){
-        binding.imageView3.setOnClickListener {
-            imagePicker.launch("image/*")
-        }
-        binding.btnSalvar.setOnClickListener {
-            salvarExercicio()
-        }
-
-        viewModel.exercicioId.observe(viewLifecycleOwner) {
-            salvarImage(it)
-        }
-    }
-
-    private fun salvarImage(remoteID: ExercicioEntity?) {
-        viewModel.uploadExercicioImage(selectedImageUri, remoteID, exercicio == null)
-        parentFragmentManager.popBackStack()
-    }
-
-    private val imagePicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        selectedImageUri = uri
-        binding.imageView3.setImageURI(uri)
-    }
-
 
     private fun salvarExercicio() {
         val nome = binding.nome.text.toString().trim()

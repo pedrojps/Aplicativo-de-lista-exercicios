@@ -2,6 +2,7 @@ package com.teste.exerciciolist
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.teste.exerciciolist.data.local.entity.ExercicioEntity
 import com.teste.exerciciolist.data.local.entity.TreinoEntity
 import com.teste.exerciciolist.ui.exercicio.ExercicioFormFragment
@@ -23,10 +24,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val toolbar = findViewById<Toolbar>(R.id.toolBar)
+        toolbar?.let {
+            setSupportActionBar(it)
+            title = getString(R.string.app_name)
+        }
+
         // Abre o fragmento de lista na inicialização
         if (savedInstanceState == null) {
             abrirListaDeTreinos()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        supportFragmentManager.popBackStack()
+        return true
     }
 
     fun abrirListaDeTreinos() {
