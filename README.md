@@ -23,7 +23,6 @@ Este é um aplicativo Android nativo desenvolvido em **Kotlin**, com foco em reg
 - **Firebase Authentication**
 - **Firebase Firestore**
 - **Firebase Storage**
-- **Hilt** (injeção de dependência)
 - **MVVM** (arquitetura)
 - **LiveData & ViewModel**
 - **Coroutines**
