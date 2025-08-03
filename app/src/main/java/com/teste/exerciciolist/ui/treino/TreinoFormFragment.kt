@@ -97,7 +97,7 @@ class TreinoFormFragment : Fragment() {
                 viewModel.criarTreino(nome, descricao, userId)
             }
 
-            (activity as? MainActivity)?.abrirListaDeTreinos()
+            parentFragmentManager.popBackStack()
         }
     }
 
