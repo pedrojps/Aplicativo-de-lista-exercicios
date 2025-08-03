@@ -47,7 +47,7 @@ object FirestoreManager {
             }
     }
 
-    suspend fun listarTreinos(userId: String): List<Pair<String, Treino>> {
+    suspend fun listarTreinos(userId: String): List<Pair<String, Treino>>? {
         return try {
             val snapshot = FirebaseFirestore.getInstance()
                 .collection(USUARIOS_COLLECTION)
@@ -64,7 +64,7 @@ object FirestoreManager {
             }
         } catch (e: Exception) {
             Log.e("FirestoreManager", "Erro ao listar treinos: ${e.message}")
-            emptyList()
+            null
         }
     }
 

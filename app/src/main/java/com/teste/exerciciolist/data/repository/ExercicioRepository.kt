@@ -59,8 +59,12 @@ class ExercicioRepository @Inject constructor(
             e.toEntity(id, lTreinoId)
         }
 
-        exercicioDao.deleteByTreinoId(lTreinoId)
-        exercicioDao.insert(locais)
+        try {
+            exercicioDao.deleteByTreinoId(lTreinoId)
+            exercicioDao.insert(locais)
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
     suspend fun deletarExercicio(

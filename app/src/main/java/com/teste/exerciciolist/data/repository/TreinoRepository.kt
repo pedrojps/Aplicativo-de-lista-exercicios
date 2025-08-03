@@ -44,7 +44,8 @@ class TreinoRepository @Inject constructor(
 
     suspend fun sincronizarTreinos(userId: String) {
         val remotos = FirestoreManager.listarTreinos(userId)
-
+        remotos?:return
+        
         // Converte para entidade local
         val locais = remotos.map { (id, t) ->
             t.toEntity(id)
@@ -60,8 +61,12 @@ class TreinoRepository @Inject constructor(
                 e.toEntity(id, idTreino.toInt())
             }
 
-            exercicioDao.deleteByTreinoId(it.id)
-            exercicioDao.insert(exerciciosL)
+            try {
+                exercicioDao.deleteByTreinoId(it.id)
+                exercicioDao.insert(exerciciosL)
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
         }
     }
 
